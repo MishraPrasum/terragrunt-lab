@@ -2,7 +2,7 @@ data "aws_ssm_parameter" "amazon_linux" {
   name = "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"
 }
 
-resource "aws_security_group" "this" {
+resource "aws_security_group" "main" {
   name_prefix = "${var.environment}-ec2-"
   description = "SSH access for ${var.environment} EC2"
   vpc_id      = var.vpc_id
@@ -29,7 +29,7 @@ resource "aws_security_group" "this" {
   }
 }
 
-resource "aws_instance" "this" {
+resource "aws_instance" "main" {
   ami                         = data.aws_ssm_parameter.amazon_linux.value
   instance_type               = var.instance_type
   subnet_id                   = var.subnet_id
